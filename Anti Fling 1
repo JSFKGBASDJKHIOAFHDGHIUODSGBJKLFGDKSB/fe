@@ -1,0 +1,41 @@
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+
+local function getCharacterComponents(character)
+    local humanoidRootPart = character:FindFirstChild("HumanoidRootPart") or character:FindFirstChild("Torso") or character:FindFirstChild("UpperTorso")
+    local humanoid = character:FindFirstChild("Humanoid")
+    return humanoidRootPart, humanoid
+end
+
+local function applyAntiFling(humanoidRootPart, lastSafePosition)
+    humanoidRootPart.CFrame = CFrame.new(lastSafePosition)
+end
+
+local function antiFling()
+    local localPlayer = Players.LocalPlayer
+    local maxVelocityChange = 50 -- Set a maximum allowed change in velocity to detect flinging
+
+    local lastVelocity = Vector3.new(0, 0, 0)
+    local lastSafePosition = Vector3.new(0, 5, 0)
+
+    while true do
+        RunService.Heartbeat:Wait()
+        local character = localPlayer.Character
+        local humanoidRootPart, humanoid = getCharacterComponents(character)
+
+        if humanoidRootPart and humanoid then
+            local currentVelocity = humanoidRootPart.Velocity
+            local velocityChange = (currentVelocity - lastVelocity).Magnitude
+
+            if velocityChange > maxVelocityChange then
+                applyAntiFling(humanoidRootPart, lastSafePosition)
+            else
+                lastSafePosition = humanoidRootPart.Position
+            end
+
+            lastVelocity = currentVelocity
+        end
+    end
+end
+
+antiFling()
