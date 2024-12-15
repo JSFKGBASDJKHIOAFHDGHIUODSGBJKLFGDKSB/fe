@@ -1,7 +1,7 @@
 const { Client, GatewayIntentBits } = require('discord.js');
 const express = require('express');
 const app = express();
-const botToken = 'YOUR_BOT_TOKEN';  // Your bot token here
+const botToken = 'MTMxNzgwNjMyOTc3MTA2NTQxNg.GdJcX1.wAWCPixjFCTMMM75WpDGlGTA4Wwjg1lnphdd4g';  // Your bot token here
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
 // Set up your server route to create a Discord invite
