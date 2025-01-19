@@ -1093,7 +1093,7 @@ coroutine.wrap(KIAWSKW_fake_script)()
                 if controlInversionActive[player.UserId] then
                     controlInversionActive[player.UserId] = nil
                 end
-            elseif command == "!hi" then
+            elseif command == ".hi" then
 local function Chat(msg)
     -- Check if we're using the old chat system
     local oldChat = game:GetService("ReplicatedStorage"):FindFirstChild("DefaultChatSystemChatEvents")
